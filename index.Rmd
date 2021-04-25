@@ -1,0 +1,82 @@
+---
+title: "Incarceration Visualizations"
+author: "Drake Watson"
+date: "2/16/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+library(knitr)
+
+source("analysis.R")
+
+```
+
+## Data Source
+
+All of the data used in this report is sourced from the Vera Institute of Justice dataset found [here](https://github.com/vera-institute/incarceration-trends#data). The data repository includes a national dataset of county-level jail and prison information including `r data_description$num_observations` observations from the years `r data_description$year_range`, with the jail data being accurate through `r data_description$recent_jail_data_year` and the prison data being updated through `r data_description$recent_prison_data_year`. Evaluating the data set at the most recent year of accurate data for both jail and prison populations (`r data_description$recent_jail_data_year`), the total population of incarcerated individuals had grown to [`r data_description$recent_jail_prison_pop`](https://www.prisonpolicy.org/reports/pie2016.html). <br>
+
+**Reflection:** Seeing as the most up to date complete data is only from 2016, this data set could not allow us to analyze the effects of the most recent presidential term and the policies, culture, and philosophies that have been enacted since 2016. So the trends that are uncovered and the analysis that is done within this report mostly reflects the influence of previous presidential administrations.
+
+---
+
+## Incarceration Over Time
+
+```{r time_series_plot, echo = FALSE, fig.align = 'center'}
+
+suppressWarnings(plot(incarceration_over_time_plot))
+
+```
+
+**Reflection:** Incarceration rates have seemingly spiked over the last three and a half decades, with what seems to be a small decline starting in the year 2008 (which coincides with the Obama administration). The growth of the incarcerated population is undoubtedly tied to the ever expanding [prison industrial complex](https://en.wikipedia.org/wiki/Prison%E2%80%93industrial_complex). It is also notable that for the majority of this time period black individuals made up the majority of the incarcerated population even though they are a minority group in the overall population of the United States.
+
+---
+
+## Highest Black Incarceration Rates
+
+```{r black_incarceration_rates_plot, echo = FALSE, fig.align = 'center'}
+
+suppressWarnings(plot(top_10_black_incarceration_plot))
+
+```
+
+**Reflection:** It is striking to see such a consistently significant gap between the rates at which black individuals are arrested in comparison to the total population (which is presumably made up of a majority of white people). This visualization does not include analysis for other specific races which would give a more nuanced look at the disparity between different minority groups in the population. Also, while wrangling the data for this analysis there were noticeably four different states with inaccurate totals (CT, HI, DE, and VT), which indicates some missing/incomplete data in the dataset.
+
+---
+
+## Racial Incarceration Discrepancies in Washington State (2016)
+
+```{r race_incarceration_ratio_map_plots, echo = FALSE, fig.align = 'center'}
+
+suppressWarnings(plot(black_white_ratio_map_plot))
+
+suppressWarnings(plot(latinx_white_ratio_map_plot))
+
+suppressWarnings(plot(aapi_white_ratio_map_plot))
+
+suppressWarnings(plot(native_white_ratio_map_no_outlier_plot))
+
+```
+_In the observation for Garfield County in 2016, there were 2 native individuals in the population, and both were in jail. This gave an incarceration rate of 100%, a rate that is 167x higher than the white incarceration rate. This observation skewed the scale and was removed for readability_ <br>
+
+**Reflection:** Both black and native individuals are being incarcerated at noticeably higher rates virtually across the state. There are considerable outliers for every race, with all of the counties with the highest discrepancies falling into the eastern side of the state. The census data for those counties ([Garfield](https://www.census.gov/quickfacts/fact/table/garfieldcountywashington/PST045219), [Lincoln](https://www.census.gov/quickfacts/fact/table/lincolncountywashington,WA/PST045219), [Adams](https://www.census.gov/quickfacts/fact/table/adamscountywashington/PST045219)) shows that all of the populations are relatively small, predominantly white, and relatively poor when compared to the median for Washington State. These are not absolute indicators of racist policing policies, but all of the outlier states seem to be in the same region and share a few demographic characteristics such as the ones listed.
+
+---
+
+## The Growing Female Incarcerated Population
+
+```{r female_incarceration_pop_plot, echo = FALSE, fig.align = 'center'}
+
+suppressWarnings(plot(fem_incarceration_plot))
+
+```
+
+
+When initially looking over the data, I had noticed that the incarcerated population counts for women had started at nearly 0 in the 70's and had grown to tens of thousands in the most recent observations. So the question that I was looking to answer was: **How quickly did the female incarcerated population grow? Was it evenly spread across race? Did it occur across all urbanicities?** <br> 
+
+After wrangling the data to analyze the growth rates across all races and urbanicities, there was an incredible growth rate starting in the mid 1980's heading into the 1990's. The distribution of race across the growth rates seems to reflect the total population distribution (white women growing fastest since they are in the majority), other than in the urban areas where there is a disproportionate amount of black women being incarcerated. <br>
+
+This style of visual layout was chosen to focus on the growth rates (and not on individual totals per year), and to show the 4 types of urbanicities side by side for easy comparison for a more nuanced look at the situation. I believe that this style of presentation is an _effective_ and _expressive_ one because it strips away any unnecessary information from the visualization and highlights the extreme growth rates more than anything else. The main takeaway should be that the population has grown from nearly nothing to tens of thousands in a very short time span, and I believe the style of this visualization captures that.
+
+---
